@@ -1,0 +1,676 @@
+[
+        {
+            "title": "White Sand Beach",
+            "category": "beach",
+            "location": "Boracay",
+            "image": "images/beach-boracay.avif",
+            "description": "One of the most famous beaches all around the world. Famous for its powdery white sand and crystal clear water.",
+            "showCase": ["top", "seasonal"],
+            "limitedOffers": {
+                "domestic": 10,
+                "international": 14
+            },
+            "domestic": {
+                "travelIn": 2500,
+                "travelOut": 2500,
+                "hotel": 5000
+            },
+            "international": {
+                "america": {
+                    "travelIn": 61894,
+                    "travelOut": 61894,
+                    "hotel": 5000
+                },
+                "europe": {
+                    "travelIn": 45867,
+                    "travelOut": 45867,
+                    "hotel": 5000
+                },
+                "asia": {
+                    "travelIn": 20837,
+                    "travelOut": 20837,
+                    "hotel": 5000
+                },
+                "southeastAsia": {
+                    "travelIn": 12634,
+                    "travelOut": 12634,
+                    "hotel": 5000
+                },
+                "Oceania": {
+                    "travelIn": 23540,
+                    "travelOut": 23540,
+                    "hotel": 5000
+                }
+            }
+        },
+
+        {
+            "title": "Nacpan Beach",
+            "category": "beach",
+            "location": "El Nido, Palawan",
+            "image": "images/beach-nacpan.avif",
+            "description": "Many consider this 4km white sand beach as the real hidden gem of El Nido by being untouched but full with potential.",
+            "showCase": ["seasonal"],
+            "limitedOffers": {
+                "domestic": 11,
+                "international": 13
+            },
+            "domestic": {
+                "travelIn": 2560,
+                "travelOut": 2560,
+                "hotel": 6300
+            },
+            "international": {
+                "america": {
+                    "travelIn": 61454,
+                    "travelOut": 61454,
+                    "hotel": 6300
+                },
+                "europe": {
+                    "travelIn": 45463,
+                    "travelOut": 45463,
+                    "hotel": 6300
+                },
+                "asia": {
+                    "travelIn": 20734,
+                    "travelOut": 20734,
+                    "hotel": 6300
+                },
+                "southeastAsia": {
+                    "travelIn": 12361,
+                    "travelOut": 12361,
+                    "hotel": 6300
+                },
+                "Oceania": {
+                    "travelIn": 23305,
+                    "travelOut": 23305,
+                    "hotel": 6300
+                }
+            }
+        },
+
+        {
+            "title": "Alona Beach",
+            "category": "beach",
+            "location": "Bohol",
+            "image": "images/beach-alona.avif",
+            "description": "One of the most famous tourist spots in Bohol that consists of tranquil water and devoid rocks and corals making it a perfect place for swimming.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2340,
+                "travelOut": 2340,
+                "hotel": 6100
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60367,
+                    "travelOut": 60367,
+                    "hotel": 6100
+                },
+                "europe": {
+                    "travelIn": 45029,
+                    "travelOut": 45029,
+                    "hotel": 6100
+                },
+                "asia": {
+                    "travelIn": 20304,
+                    "travelOut": 20304,
+                    "hotel": 6100
+                },
+                "southeastAsia": {
+                    "travelIn": 12034,
+                    "travelOut": 12034,
+                    "hotel": 6100
+                },
+                "Oceania": {
+                    "travelIn": 23165,
+                    "travelOut": 23165,
+                    "hotel": 6100
+                }
+            }
+        },
+
+        {
+            "title": "Malcapuya Beach",
+            "category": "beach",
+            "location": "Coron, Palawan",
+            "image": "images/beach-malcapuya.avif",
+            "description": "This place is not only a great swimming spot but also offers one of the best places to snorkel and dive due to abundant marine life.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 9,
+                "international": 12
+            },
+            "domestic": {
+                "travelIn": 2580,
+                "travelOut": 2580,
+                "hotel": 4800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60857,
+                    "travelOut": 60857,
+                    "hotel": 4800
+                },
+                "europe": {
+                    "travelIn": 45403,
+                    "travelOut": 45403,
+                    "hotel": 4800
+                },
+                "asia": {
+                    "travelIn": 20643,
+                    "travelOut": 20643,
+                    "hotel": 4800
+                },
+                "southeastAsia": {
+                    "travelIn": 12203,
+                    "travelOut": 12203,
+                    "hotel": 4800
+                },
+                "Oceania": {
+                    "travelIn": 23209,
+                    "travelOut": 23209,
+                    "hotel": 4800
+                }
+            }
+        },
+
+        {
+            "title": "Hidden Beach",
+            "category": "beach",
+            "location": "El Nido, Palawan",
+            "image": "images/beach-hidden.avif",
+            "description": "Hidden yet worth finding. It's famous for its white sand beach and azure water accompanied by a breathtaking scenery of towering karst formations.",
+            "showCase": ["seasonal"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2560,
+                "travelOut": 2560,
+                "hotel": 6500
+            },
+            "international": {
+                "america": {
+                    "travelIn": 61454,
+                    "travelOut": 61454,
+                    "hotel": 6500
+                },
+                "europe": {
+                    "travelIn": 45463,
+                    "travelOut": 45463,
+                    "hotel": 6500
+                },
+                "asia": {
+                    "travelIn": 20734,
+                    "travelOut": 20734,
+                    "hotel": 6500
+                },
+                "southeastAsia": {
+                    "travelIn": 12361,
+                    "travelOut": 12361,
+                    "hotel": 6500
+                },
+                "Oceania": {
+                    "travelIn": 23305,
+                    "travelOut": 23305,
+                    "hotel": 6500
+                }
+            }
+        },
+    
+        {
+            "title": "Chocolate Hills",
+            "category": "landmark",
+            "location": "Bohol",
+            "image": "images/landmark-chocolate-hills.avif",
+            "description": "Filled with 1260 almost symmetrical hills that all vary in heights and sizes. Legend has it that the hills were caused by a feud between two giants.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Mayon Volcano",
+            "category": "landmark",
+            "location": "Albay, Bicol",
+            "image": "images/landmark-mayon-volcano.avif",
+            "description": "One of the most active volanoes in the Philippines but it's still popular due to its perfect cone top and almost symmetrical shape.",
+            "showCase": ["top"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Tinuy-an Falls",
+            "category": "landmark",
+            "location": "Bislig, Surigao del Sur",
+            "image": "images/landmark-tinuyan-falls.avif",
+            "description": "A hidden treasure in the Philippines perfect for swimmers or anyone that just wants to counter a hot weather.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Banaue Rice Terraces",
+            "category": "landmark",
+            "location": "Ifugao",
+            "image": "images/landmark-rice-terraces.avif",
+            "description": "Considered as the 'Eight Wonders of the World' and famous for its craftmanship by the Igorot people's ancestors only using minimal equipment.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Subterranean River",
+            "category": "landmark",
+            "location": "Puerto Princesa, Palawan",
+            "image": "images/landmark-subterranean-river.avif",
+            "description": "A hidden river that consists of limestone beds where you can ride boats to explore and enjoy its scenery.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+    
+        {
+            "title": "Rizal Park",
+            "category": "history",
+            "location": "Manila",
+            "image": "images/history-rizal-park.avif",
+            "description": "Commonly known as Luneta park, it is one of the most historical places in the Philippines because it held alot of important historical events.",
+            "showCase": ["top"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Intramuros",
+            "category": "history",
+            "location": "Manila",
+            "image": "images/history-intramuros.avif",
+            "description": "It's composed of many important historical sites. Take a walk of history through history and explore different museums and sites our history has to offer.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Binondo",
+            "category": "history",
+            "location": "Manila",
+            "image": "images/history-binondo.avif",
+            "description": "The first and oldest Chinatown in the world. Discover the mixture of different cultures through food, festivities, events places and more.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Calle Crisologo",
+            "category": "history",
+            "location": "Vigan",
+            "image": "images/history-crisologo.avif",
+            "description": "A UNESCO world heritage site that shows what a perfect spanish colonial town is in Asia. Take a journey way back to historical times.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        },
+
+        {
+            "title": "Corregidor Island",
+            "category": "history",
+            "location": "Cavite",
+            "image": "images/history-corregidor-island.avif",
+            "description": "The last military stronghold during the American occupation. Explore the tragic tales of the soldiers of World War II.",
+            "showCase": ["none"],
+            "limitedOffers": {
+                "domestic": 0,
+                "international": 0
+            },
+            "domestic": {
+                "travelIn": 2050,
+                "travelOut": 2050,
+                "hotel": 5800
+            },
+            "international": {
+                "america": {
+                    "travelIn": 60000,
+                    "travelOut": 60000,
+                    "hotel": 5800
+                },
+                "europe": {
+                    "travelIn": 45000,
+                    "travelOut": 40000,
+                    "hotel": 5800
+                },
+                "asia": {
+                    "travelIn": 20000,
+                    "travelOut": 20000,
+                    "hotel": 5800
+                },
+                "southeastAsia": {
+                    "travelIn": 12000,
+                    "travelOut": 12000,
+                    "hotel": 5800
+                },
+                "Oceania": {
+                    "travelIn": 23000,
+                    "travelOut": 23000,
+                    "hotel": 5800
+                }
+            }
+        }
+    ]
