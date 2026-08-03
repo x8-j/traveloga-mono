@@ -1,0 +1,23 @@
+FROM node:24-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH"
+RUN corepack enable pnpm && corepack prepare pnpm@^9 --activate
+WORKDIR /app
+
+FROM base AS prepare
+RUN pnpm add --global turbo@^2
+COPY . .
+RUN pnpm turbo prune @traveloga/backend --docker
+
+FROM base AS install-build
+COPY --from=prepare /app/out/json/ .
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+COPY --from=prepare /app/out/full/ .
+RUN pnpm run build
+
+
+FROM base
+COPY --from=install-build /app /app
+EXPOSE 5000
+
+CMD [ "pnpm", "dev" ]

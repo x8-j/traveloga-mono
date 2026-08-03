@@ -1,7 +1,7 @@
 FROM node:24-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PNPM_HOME/bin:$PATH"
-RUN corepack enable pnpm && corepack prepare pnpm@^9 --activate
+RUN corepack enable pnpm && corepack prepare pnpm@^9 - -activate
 WORKDIR /app
 
 FROM base AS prepare
@@ -18,6 +18,5 @@ RUN pnpm run build
 
 FROM base
 COPY --from=install-build /app /app
-EXPOSE 8000
 
-CMD [ "pnpm", "dev" ]
+CMD [ "pnpm", "start" ]
