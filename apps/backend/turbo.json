@@ -1,0 +1,19 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "start": {
+      "dependsOn": ["^build"],
+      "passThroughEnv": ["MONGO_URI", "JWT_SECRET", "JWT_ID", "PORT"],
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
