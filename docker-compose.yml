@@ -1,4 +1,11 @@
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/frontend/Dockerfile.dev
+    ports:
+      - "3000:3000"
+
   backend:
     build:
       context: .
