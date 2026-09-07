@@ -1,22 +1,14 @@
 {
+  "extends": "@traveloga/typescript-config/base.json",
   "files": [],
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "bundler",
-    "target": "esnext",
+    "allowJs": true,
+    "jsx": "preserve",
+    "noEmit": true,
     "types": ["node", "vitest/globals"],
     "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
-    "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"]
     }
