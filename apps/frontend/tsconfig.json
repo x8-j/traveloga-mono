@@ -1,0 +1,16 @@
+{
+  "extends": "@traveloga/typescript-config/base.json",
+  "files": [],
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "jsx": "preserve",
+    "noEmit": true,
+    "types": ["node", "vitest/globals"],
+    "sourceMap": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
