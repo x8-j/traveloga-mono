@@ -1,49 +1,18 @@
 import { faTag } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useGlobalContext } from '../../context';
-import type { Destionation } from '../../types/Destination';
+import { Destination } from '../../query/destination';
 
-const EachOfferSelection = ({ data }: { data: Destionation[] }) => {
+const EachOfferSelection = ({
+  data,
+  loading,
+}: {
+  data: Destination[];
+  loading: boolean;
+}) => {
   const { openBookingUI } = useGlobalContext();
 
-  if (data.length < 1) {
-    return (
-      <>
-        <>
-          <div className="flex w-full animate-pulse flex-col gap-2 shadow-md shadow-black/[0.8]  sm:flex-row sm:gap-4 sm:shadow-none md:gap-6 lg:gap-8">
-            <div className="aspect-video w-full bg-slate-200 sm:w-1/2" />
-            <div className="flex flex-col gap-2 sm:w-1/2">
-              <div className="h-4 w-3/4 bg-slate-200 sm:w-1/2 lg:w-1/3" />
-              <div className="h-2 bg-slate-200 sm:h-3" />
-              <div className="h-2 bg-slate-200 sm:h-3 xl:w-1/2" />
-              <div className="h-2 bg-slate-200 sm:h-3 md:w-2/3 lg:w-1/3 xl:hidden" />
-              <div className="flex flex-col gap-1">
-                <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
-                <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
-              </div>
-              <div className="h-12 bg-slate-200 sm:w-1/3 sm:max-w-[12rem]"></div>
-            </div>
-          </div>
-        </>
-        <>
-          <div className="flex w-full animate-pulse flex-col gap-2 shadow-md shadow-black/[0.8]  sm:flex-row sm:gap-4 sm:shadow-none md:gap-6 lg:gap-8">
-            <div className="aspect-video w-full bg-slate-200 sm:w-1/2" />
-            <div className="flex flex-col gap-2 sm:w-1/2">
-              <div className="h-4 w-3/4 bg-slate-200 sm:w-1/2 lg:w-1/3" />
-              <div className="h-2 bg-slate-200 sm:h-3" />
-              <div className="h-2 bg-slate-200 sm:h-3 xl:w-1/2" />
-              <div className="h-2 bg-slate-200 sm:h-3 md:w-2/3 lg:w-1/3 xl:hidden" />
-              <div className="flex flex-col gap-1">
-                <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
-                <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
-              </div>
-              <div className="h-12 bg-slate-200 sm:w-1/3 sm:max-w-[12rem]"></div>
-            </div>
-          </div>
-        </>
-      </>
-    );
-  }
+  if (data.length < 1 || loading) return <LoadingSkeleton />;
 
   return (
     <>
@@ -99,5 +68,44 @@ const EachOfferSelection = ({ data }: { data: Destionation[] }) => {
     </>
   );
 };
+
+function LoadingSkeleton() {
+  return (
+    <>
+      <>
+        <div className="flex w-full animate-pulse flex-col gap-2 shadow-md shadow-black/[0.8] sm:flex-row sm:gap-4 sm:shadow-none md:gap-6 lg:gap-8">
+          <div className="aspect-video w-full bg-slate-200 sm:w-1/2" />
+          <div className="flex flex-col gap-2 sm:w-1/2">
+            <div className="h-4 w-3/4 bg-slate-200 sm:w-1/2 lg:w-1/3" />
+            <div className="h-2 bg-slate-200 sm:h-3" />
+            <div className="h-2 bg-slate-200 sm:h-3 xl:w-1/2" />
+            <div className="h-2 bg-slate-200 sm:h-3 md:w-2/3 lg:w-1/3 xl:hidden" />
+            <div className="flex flex-col gap-1">
+              <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
+              <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
+            </div>
+            <div className="h-12 bg-slate-200 sm:w-1/3 sm:max-w-[12rem]"></div>
+          </div>
+        </div>
+      </>
+      <>
+        <div className="flex w-full animate-pulse flex-col gap-2 shadow-md shadow-black/[0.8]  sm:flex-row sm:gap-4 sm:shadow-none md:gap-6 lg:gap-8">
+          <div className="aspect-video w-full bg-slate-200 sm:w-1/2" />
+          <div className="flex flex-col gap-2 sm:w-1/2">
+            <div className="h-4 w-3/4 bg-slate-200 sm:w-1/2 lg:w-1/3" />
+            <div className="h-2 bg-slate-200 sm:h-3" />
+            <div className="h-2 bg-slate-200 sm:h-3 xl:w-1/2" />
+            <div className="h-2 bg-slate-200 sm:h-3 md:w-2/3 lg:w-1/3 xl:hidden" />
+            <div className="flex flex-col gap-1">
+              <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
+              <div className="sm:1/3 h-2 w-1/2 max-w-[10rem] bg-slate-200 sm:h-3" />
+            </div>
+            <div className="h-12 bg-slate-200 sm:w-1/3 sm:max-w-[12rem]"></div>
+          </div>
+        </div>
+      </>
+    </>
+  );
+}
 
 export default EachOfferSelection;

@@ -3,7 +3,7 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState, type ReactNode } from 'react';
+import { useCallback } from 'react';
 import { useGlobalContext } from '../../context';
 import {
   DateOfBookingComponent,
@@ -13,19 +13,78 @@ import {
   PriceComponent,
 } from './index';
 import useBookingContext, { BookingProvider } from './BookingStateContext';
+import { useBookingMutation } from '../../query/booking';
+import { useSnackbar } from '../../store/snackbar';
 
 const BookingUI = () => {
-  const { closeModal } = useGlobalContext();
-  const [isLoading, setIsLoading] = useState(false);
+  const { closeModal, contentModal } = useGlobalContext();
+  const {
+    regionsCategory,
+    travellingFromRegion,
+    travellingFromLocation,
+    dateOfLeave,
+    amount,
+    withHotel,
+    flightType,
+    dateOfReturn,
+    title,
+  } = useBookingContext();
 
-  const changeLoading = (bool: boolean) => {
-    setIsLoading(bool);
-  };
+  const { triggerSnackbar } = useSnackbar();
+  const { mutate, isPending } = useBookingMutation({
+    onSuccess: () => {
+      triggerSnackbar({
+        type: 'success',
+        message: 'Flight booked sucessfully!',
+      });
+    },
+    onError: () => {
+      triggerSnackbar({
+        type: 'error',
+        message: 'Failed to book flight',
+      });
+    },
+    onSettled: closeModal,
+  });
+
+  const onFormSubmit = useCallback(() => {
+    mutate({
+      id: contentModal.id,
+      method: 'POST',
+      body: {
+        travellingFromLocation,
+        regionsCategory,
+        travellingFromRegion,
+        travellingTo: title,
+        dateOfLeave,
+        dateOfReturn,
+        withHotel,
+        flightType,
+        amount,
+      },
+    });
+  }, [
+    contentModal.id,
+    travellingFromLocation,
+    regionsCategory,
+    travellingFromRegion,
+    title,
+    dateOfLeave,
+    dateOfReturn,
+    withHotel,
+    flightType,
+    amount,
+  ]);
 
   return (
     <BookingProvider>
       <div className="flex max-w-4xl flex-row-reverse justify-center bg-white md:w-fit">
-        <FormWrapper {...{ changeLoading }}>
+        <form
+          className="relative flex w-full flex-col gap-2 bg-white p-6 md:gap-3 md:py-6"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onFormSubmit();
+          }}>
           <div className="relative self-end">
             <FontAwesomeIcon
               className="button_transition absolute right-0 top-0 z-10 text-2xl text-black/50 hover:text-black"
@@ -44,39 +103,19 @@ const BookingUI = () => {
           <button
             className="button_transition col-span-6 flex items-center justify-center gap-3 rounded-lg bg-amber-300 py-3 hover:text-white enabled:hover:bg-amber-400 disabled:bg-amber-200"
             type="submit"
-            disabled={isLoading}>
+            disabled={isPending}>
             <FontAwesomeIcon
               className="text-lg md:text-xl"
               icon={faCartFlatbedSuitcase}
             />
             <h1 className="font-semibold md:text-lg">
-              {isLoading ? 'BOOKING...' : 'BOOK FLIGHT'}
+              {isPending ? 'BOOKING...' : 'BOOK FLIGHT'}
             </h1>
           </button>
-        </FormWrapper>
+        </form>
       </div>
     </BookingProvider>
   );
 };
 
-const FormWrapper = ({
-  children,
-  changeLoading,
-}: {
-  children: ReactNode;
-  changeLoading: (val: boolean) => void;
-}) => {
-  const { formSubmit } = useBookingContext();
-
-  return (
-    <form
-      className="relative flex w-full flex-col gap-2 bg-white p-6 md:gap-3 md:py-6"
-      onSubmit={(e) => {
-        e.preventDefault();
-        formSubmit(changeLoading);
-      }}>
-      {children}
-    </form>
-  );
-};
 export default BookingUI;

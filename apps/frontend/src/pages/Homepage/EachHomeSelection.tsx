@@ -7,11 +7,12 @@ import type { PreviewDestination } from '../../types/Destination';
 interface SelectionProps {
   info: PreviewDestination[];
   leftPosition?: number;
+  loading: boolean;
 }
-const Selection = ({ info, leftPosition = 0 }: SelectionProps) => {
+const Selection = ({ info, loading, leftPosition = 0 }: SelectionProps) => {
   const { openDestinationUI } = useGlobalContext();
 
-  if (info.length < 1) {
+  if (info.length < 1 || loading) {
     return (
       <div className="flex h-80 w-[22rem] animate-pulse flex-col overflow-hidden shadow-lg sm:w-[400px] md:w-[522px] ">
         <div className=" aspect-video h-[90%] bg-slate-200" />

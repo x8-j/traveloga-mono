@@ -11,8 +11,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, Transition } from '@headlessui/react';
 import React from 'react';
-import { useGlobalContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../store/auth';
 
 export type BookingFilter = 'Cart' | 'Booked' | 'Cancelled' | 'Refunded' | '';
 
@@ -24,11 +24,11 @@ const AccountNavigation = ({
   bookingFilter,
   setFilter,
 }: AccountNavigationProps) => {
-  const { user, userSignOut } = useGlobalContext();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const signOut = () => {
-    userSignOut();
+    logout();
     navigate('/');
   };
 

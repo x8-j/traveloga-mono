@@ -1,75 +1,34 @@
-import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useGlobalContext } from '../../context';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { Booking } from '../../types/Booking';
-import { useSnackbar } from '../../store/snackbar';
+import { useBookingMutation } from '../../query/booking/useBookingMutation';
 
 interface EachBookingProps {
   eachBooking: Booking;
-  alterBookingList: (bookings: Booking[]) => void;
 }
-const EachBooking = ({ eachBooking, alterBookingList }: EachBookingProps) => {
-  const { setPayment, authToken } = useGlobalContext();
-  const { triggerSnackbar } = useSnackbar();
+const EachBooking = ({ eachBooking }: EachBookingProps) => {
+  const { setPayment } = useGlobalContext();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate, isPending } = useBookingMutation();
 
-  const cancelStatus = useCallback(
-    async (id: string) => {
-      setIsLoading(true);
-      try {
-        const {
-          data: { message, bookings },
-        } = await axios.patch(
-          `https://traveloga-api.onrender.com/api/v1/bookings/${id}`,
-          { status: 'Cancelled' },
-          { headers: { Authorization: `Bearer ${authToken}` } },
-        );
-        triggerSnackbar({ type: 'success', message });
-        alterBookingList(bookings);
-      } catch (err: any) {
-        triggerSnackbar({ type: 'error', message: err.response.data.message });
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [alterBookingList, authToken, triggerSnackbar],
-  );
+  const cancelStatus = useCallback(async (id: string) => {
+    mutate({
+      id,
+      method: 'PATCH',
+      body: {
+        status: 'Cancelled',
+      },
+    });
+  }, []);
 
   const deleteBooking = async (id: string) => {
-    try {
-      const {
-        data: { message, bookings },
-      } = await axios.delete(
-        `https://traveloga-api.onrender.com/api/v1/bookings/${id}`,
-        {
-          headers: { Authorization: `Bearer ${authToken}` },
-        },
-      );
-      triggerSnackbar({ type: 'success', message });
-      alterBookingList(bookings);
-    } catch (err: any) {
-      triggerSnackbar({ type: 'error', message: err.response.data.message });
-      console.log(err);
-    }
+    mutate({
+      id,
+      method: 'DELETE',
+    });
   };
-
-  useEffect(() => {
-    if (
-      Date.now() >= new Date(eachBooking.dateOfLeave).getTime() &&
-      eachBooking.status === 'Cart'
-    ) {
-      cancelStatus(eachBooking._id);
-    }
-  }, [
-    cancelStatus,
-    eachBooking._id,
-    eachBooking.dateOfLeave,
-    eachBooking.status,
-  ]);
 
   if (eachBooking) {
     const {
@@ -138,7 +97,7 @@ const EachBooking = ({ eachBooking, alterBookingList }: EachBookingProps) => {
             <div className="flex gap-4 ">
               <button
                 className="button_transition bg-amber-300 px-5 py-2 font-semibold hover:bg-amber-400 hover:text-white"
-                onClick={(e) => {
+                onClick={() => {
                   setPayment(_id, amount);
                 }}>
                 Book
@@ -146,8 +105,8 @@ const EachBooking = ({ eachBooking, alterBookingList }: EachBookingProps) => {
               <button
                 className="button_transition bg-amber-300 px-5 py-2 font-semibold  hover:text-white enabled:hover:bg-amber-400 disabled:bg-amber-200"
                 onClick={() => cancelStatus(_id)}
-                disabled={isLoading}>
-                {isLoading ? 'Cancelling...' : 'Cancel'}
+                disabled={isPending}>
+                {isPending ? 'Cancelling...' : 'Cancel'}
               </button>
             </div>
           ) : (
@@ -161,7 +120,7 @@ const EachBooking = ({ eachBooking, alterBookingList }: EachBookingProps) => {
               <button
                 onClick={() => deleteBooking(_id)}
                 className="button_transition flex items-center justify-center px-4 py-2 enabled:hover:bg-slate-100"
-                disabled={isLoading}>
+                disabled={isPending}>
                 <FontAwesomeIcon
                   className=" text-lg text-amber-300"
                   icon={faTrash}

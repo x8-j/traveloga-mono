@@ -10,7 +10,6 @@ import Nav from '../Navigation';
 
 const Layout = () => {
   const {
-    user,
     contentModal: { isOpen: isContentOpen, type: contentType },
   } = useGlobalContext();
 

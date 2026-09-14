@@ -1,27 +1,13 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Selection from './EachHomeSelection';
+import { ShowCaseType, useDestinationQuery } from '../../query/destination';
 
-const HomeSelection = ({ showCase }: { showCase: 'top' | 'seasonal' }) => {
-  const [info, setInfo] = useState([]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const data = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://traveloga-api.onrender.com/api/v1/destinations?showCase=${showCase}`,
-          { signal: controller.signal },
-        );
-        setInfo(data.destinations);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    data();
-    return () => controller.abort();
-  }, [showCase]);
+const HomeSelection = ({ showCase }: { showCase: ShowCaseType }) => {
+  const { data = [], isPending } = useDestinationQuery({
+    paramsFilter: {
+      showCase: showCase,
+    },
+  });
 
   return (
     <>
@@ -41,7 +27,7 @@ const HomeSelection = ({ showCase }: { showCase: 'top' | 'seasonal' }) => {
               </Link>
             </div>
           </div>
-          <Selection info={info} />
+          <Selection info={data} loading={isPending} />
         </div>
       </div>
     </>
