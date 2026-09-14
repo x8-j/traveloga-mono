@@ -14,18 +14,12 @@ interface AppContextType {
   openDestinationUI: (value: string) => void;
   openBookingUI: (value?: string) => void;
   contentModal: ContentModal;
-  user: any | null;
-  setUser: (user: any) => void;
-  isAccountEditOpen: boolean;
-  setIsAccountEditOpen: (open: boolean) => void;
   isPaymentOpen: { isOpen: boolean; value: number; id: string };
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isAccountEditOpen, setIsAccountEditOpen] = useState<boolean>(false);
-
   // Booking, Destination, SignIn Modal
   const [contentModal, setContentModal] = useState<ContentModal>({
     id: '',
@@ -92,10 +86,6 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  //User
-
-  const [user, setUser] = useState<any | null>(null);
-
   const value = {
     setPayment,
     cancelPayment,
@@ -104,10 +94,6 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     openDestinationUI,
     openBookingUI,
     contentModal,
-    user,
-    setUser,
-    isAccountEditOpen,
-    setIsAccountEditOpen,
     isPaymentOpen,
   };
 
