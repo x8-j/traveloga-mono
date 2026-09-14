@@ -2,8 +2,14 @@ import { create } from 'zustand';
 import { authCustomFetch } from '../lib/customFetch';
 import { z } from 'zod';
 
+interface User {
+  firstname: string;
+  lastname: string;
+  email: string;
+}
 interface AuthState {
   type: 'success' | 'error' | 'pending' | '';
+  user: User | null;
 }
 interface AuthActions {
   login: (data: { email: string; password: string }) => void;
@@ -19,6 +25,7 @@ export interface Auth extends AuthState, AuthActions {}
 
 const defaultState: AuthState = {
   type: '',
+  user: null,
 };
 
 const BASE_ROUTE = 'api/v1/auth';

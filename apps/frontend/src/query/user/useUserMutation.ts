@@ -8,7 +8,6 @@ import { authCustomFetch } from '../../lib/customFetch';
 import { z } from 'zod';
 
 type MutationFnProps = {
-  id: string;
   body: UserPayload;
 };
 
@@ -24,12 +23,10 @@ export function useUserMutation(
 
   return useMutation<unknown, DefaultError, MutationFnProps>({
     ...props,
-    mutationFn: async ({ id, body }) => {
-      const URL = BASE_URL + '/' + id;
-
+    mutationFn: async ({ body }) => {
       UserPayloadSchema.parse(body);
 
-      await authCustomFetch(URL, {
+      await authCustomFetch(BASE_URL, {
         method: 'PATCH',
         body: JSON.stringify(body),
       });

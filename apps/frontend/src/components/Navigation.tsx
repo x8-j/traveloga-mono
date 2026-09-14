@@ -1,7 +1,7 @@
 import { faBars, faCompass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Menu, Transition } from '@headlessui/react';
-import React, { Fragment, useRef } from 'react';
+import { Fragment, useRef } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useGlobalContext } from '../context';
 import BookingUI from './BookingUI/BookingUI';
@@ -10,12 +10,14 @@ import Footer from './Footer';
 import { SignInRequiredComponent, StatusSnackBar } from './PopUpComponents';
 import TransitionWrapper from './TransitionWrapper';
 import { useSnackbar } from '../store/snackbar';
+import { useAuth } from '../store/auth';
 
 const Nav = () => {
   const {
-    user,
     contentModal: { isOpen: isContentOpen, type: contentType },
   } = useGlobalContext();
+
+  const { user } = useAuth();
 
   const { isOpen } = useSnackbar();
 

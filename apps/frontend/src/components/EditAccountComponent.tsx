@@ -1,6 +1,5 @@
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGlobalContext } from '../context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { useUserMutation } from '../query/user';
@@ -59,8 +58,6 @@ const EditAccountComponent = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const { user } = useGlobalContext();
-
   const [typeisPassword, setTypeIsPassword] = useState({
     password: true,
     currentPassword: true,
@@ -75,28 +72,24 @@ const EditAccountComponent = () => {
 
   const { triggerSnackbar } = useSnackbar();
 
-  const onFormSubmit = useCallback(
-    async (body: FormValues) => {
-      mutate(
-        {
-          id: user.userId,
-          body,
+  const onFormSubmit = useCallback(async (body: FormValues) => {
+    mutate(
+      {
+        body,
+      },
+      {
+        onSuccess: () => {
+          triggerSnackbar({ type: 'success', message: 'Payment verified!' });
         },
-        {
-          onSuccess: () => {
-            triggerSnackbar({ type: 'success', message: 'Payment verified!' });
-          },
-          onError: () => {
-            triggerSnackbar({
-              type: 'error',
-              message: 'Payment verification failed. Please try again.',
-            });
-          },
+        onError: () => {
+          triggerSnackbar({
+            type: 'error',
+            message: 'Payment verification failed. Please try again.',
+          });
         },
-      );
-    },
-    [user.userId],
-  );
+      },
+    );
+  }, []);
 
   return (
     <form
@@ -106,51 +99,47 @@ const EditAccountComponent = () => {
         EDIT ACCOUNT INFO
       </h1>
       <div className="grid grid-flow-row grid-cols-1 gap-4">
-        {formInputData.map(
-          ({ title, inputName, type, icon, maxLength }, index) => (
-            <div className="flex flex-col" key={index}>
-              <label className="text-xl">{title}</label>
-              {errors[inputName] && (
-                <p className="my-1 text-sm text-red-600">
-                  {errors[inputName].message}
-                </p>
-              )}
-              <div className="flex items-center justify-center border-2 border-solid border-black/50">
-                <input
-                  className="w-full px-4 py-2"
-                  type={
-                    !type
-                      ? inputName in typeisPassword &&
+        {formInputData.map(({ title, inputName, type, icon }, index) => (
+          <div className="flex flex-col" key={index}>
+            <label className="text-xl">{title}</label>
+            {errors[inputName] && (
+              <p className="my-1 text-sm text-red-600">
+                {errors[inputName].message}
+              </p>
+            )}
+            <div className="flex items-center justify-center border-2 border-solid border-black/50">
+              <input
+                className="w-full px-4 py-2"
+                type={
+                  !type
+                    ? inputName in typeisPassword &&
+                      typeisPassword[inputName as keyof typeof typeisPassword]
+                      ? `password`
+                      : `text`
+                    : type
+                }
+                onChange={(e) =>
+                  checkInputValue(inputName, e.currentTarget.value)
+                }
+              />
+              {icon && (
+                <FontAwesomeIcon
+                  className="mx-4 text-2xl"
+                  icon={faEye}
+                  onClick={() =>
+                    setTypeIsPassword({
+                      ...typeisPassword,
+                      [inputName]: !(
+                        inputName in typeisPassword &&
                         typeisPassword[inputName as keyof typeof typeisPassword]
-                        ? `password`
-                        : `text`
-                      : type
-                  }
-                  onChange={(e) =>
-                    checkInputValue(inputName, e.currentTarget.value)
+                      ),
+                    })
                   }
                 />
-                {icon && (
-                  <FontAwesomeIcon
-                    className="mx-4 text-2xl"
-                    icon={faEye}
-                    onClick={() =>
-                      setTypeIsPassword({
-                        ...typeisPassword,
-                        [inputName]: !(
-                          inputName in typeisPassword &&
-                          typeisPassword[
-                            inputName as keyof typeof typeisPassword
-                          ]
-                        ),
-                      })
-                    }
-                  />
-                )}
-              </div>
+              )}
             </div>
-          ),
-        )}
+          </div>
+        ))}
       </div>
       <div className="mt-6 grid grid-flow-row grid-cols-2 gap-6">
         <button className="transition-color bg-amber-200 py-4 duration-300 ease-in-out hover:bg-amber-300">
