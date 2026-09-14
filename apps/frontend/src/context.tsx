@@ -1,5 +1,4 @@
-import axios from 'axios';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export interface ContentModal {
   id: string;
@@ -8,9 +7,6 @@ export interface ContentModal {
 }
 
 interface AppContextType {
-  authToken: string | null;
-  userSignIn: (token: string) => void;
-  userSignOut: () => void;
   setPayment: (id: string, value: number) => void;
   cancelPayment: () => void;
   openSignInModal: () => void;
@@ -28,18 +24,6 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const AppProvider = ({ children }: { children: React.ReactNode }) => {
-  const [authToken, setAuthToken] = useState<string | null>(
-    localStorage.getItem('authenticated'),
-  );
-
-  useEffect(() => {
-    if (authToken) {
-      window.localStorage.setItem('authenticated', authToken);
-    } else {
-      localStorage.removeItem('authenticated');
-    }
-  }, [authToken]);
-
   const [isAccountEditOpen, setIsAccountEditOpen] = useState<boolean>(false);
 
   // Booking, Destination, SignIn Modal
@@ -109,48 +93,10 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   //User
+
   const [user, setUser] = useState<any | null>(null);
 
-  const userSignIn = (token: string) => {
-    setAuthToken(token);
-  };
-
-  const userSignOut = () => {
-    setAuthToken('');
-    localStorage.removeItem('authenticated');
-  };
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const fetchUser = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://traveloga-api.onrender.com/api/v1/users`,
-          {
-            headers: { Authorization: `Bearer ${authToken}` },
-            signal: controller.signal,
-          },
-        );
-        setUser(data);
-      } catch (err) {
-        console.log(err);
-        setAuthToken('');
-      }
-    };
-
-    if (authToken) {
-      fetchUser();
-    }
-    return () => {
-      setUser(null);
-      controller.abort();
-    };
-  }, [authToken]);
-
   const value = {
-    authToken,
-    userSignIn,
-    userSignOut,
     setPayment,
     cancelPayment,
     openSignInModal,

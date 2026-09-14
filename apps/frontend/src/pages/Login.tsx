@@ -5,11 +5,10 @@ import {
   type IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-import { useGlobalContext } from '../context';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../store/auth';
 
 interface FormValues {
   email: string;
@@ -29,13 +28,15 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    setError,
     clearErrors,
     formState: { errors },
   } = useForm<FormValues>();
-  const { user, userSignIn } = useGlobalContext();
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+
+  const { login, type } = useAuth();
+
+  const onSubmit = useCallback(async (data: FormValues) => {
+    login(data);
+  }, []);
 
   const formInputData: FormInputs[] = [
     {
@@ -52,45 +53,7 @@ const Login = () => {
     },
   ];
 
-  const submit = async (data: FormValues) => {
-    setIsLoading(true);
-    try {
-      const { data: token } = await axios.post(
-        'https://traveloga-api.onrender.com/api/v1/auth/login',
-        data,
-        { headers: { 'Content-Type': 'application/json' } },
-      );
-      setIsLoading(false);
-      userSignIn(token);
-      navigate('/');
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-      setError('email', {
-        type: 'login',
-        message: 'Your email and/or password is wrong',
-      });
-      setError('password', {
-        type: 'login',
-        message: 'Your email and/or password is wrong',
-      });
-    }
-  };
-
-  if (user) {
-    return (
-      <div className="flex h-screen w-screen flex-col items-center justify-center gap-8 px-16 ">
-        <div className="flex w-full max-w-7xl flex-col items-center justify-center gap-8">
-          <h1 className="text-center font-Rubik text-lg font-semibold text-red-600 lg:text-xl">
-            This Page is Restriced
-          </h1>
-          <button className="button_transition rounded-md bg-amber-300 px-6 py-3 font-semibold text-white hover:bg-amber-400">
-            <Link to="/">Return to HomePage</Link>
-          </button>
-        </div>
-      </div>
-    );
-  }
+  if (type === 'success') return <Navigate to="/" />;
 
   return (
     <>
@@ -127,7 +90,7 @@ const Login = () => {
 
                 <form
                   className="flex h-full flex-col gap-16 "
-                  onSubmit={handleSubmit(submit)}>
+                  onSubmit={handleSubmit(onSubmit)}>
                   <div className="flex flex-col gap-8">
                     {formInputData.map(
                       ({ title, inputName, icon, type }, index) => (
@@ -170,9 +133,9 @@ const Login = () => {
                       RETURN HOME
                     </Link>
                     <button
-                      disabled={isLoading}
+                      disabled={type === 'pending'}
                       className="button_transition flex flex-1 justify-center bg-amber-300 py-4 text-center enabled:hover:bg-amber-400 disabled:bg-amber-200 md:p-4">
-                      {isLoading ? 'LOGGING IN...' : 'LOG IN'}
+                      {type === 'pending' ? 'LOGGING IN...' : 'LOG IN'}
                     </button>
                   </div>
                 </form>
