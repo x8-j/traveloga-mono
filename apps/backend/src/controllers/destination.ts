@@ -11,8 +11,9 @@ const getAllDestinations: RequestHandler = async (req, res) => {
       { showCase },
       "title location image _id",
     );
-    if (!destinations)
+    if (!destinations) {
       throw new NotFoundError("There is no destination with this showcase");
+    }
     res.status(StatusCodes.OK).json({ destinations });
   }
   if (limitedOffers) {
@@ -23,27 +24,16 @@ const getAllDestinations: RequestHandler = async (req, res) => {
       },
       "image title location description limitedOffers _id",
     );
-    if (!destinations)
+    if (!destinations) {
       throw new NotFoundError(
         "There is no destination with this limited offer",
       );
+    }
     res.status(StatusCodes.OK).json(destinations);
   }
 
-  const beach = await Destination.find(
-    { category: "beach" },
-    "title location image _id",
-  );
-  const landmark = await Destination.find(
-    { category: "landmark" },
-    "title location image _id",
-  );
-  const history = await Destination.find(
-    { category: "history" },
-    "title location image _id",
-  );
-
-  return res.status(StatusCodes.OK).json({ beach, landmark, history });
+  const all = await Destination.find();
+  return res.status(StatusCodes.OK).json(all);
 };
 
 const getDestination: RequestHandler = async (req, res) => {

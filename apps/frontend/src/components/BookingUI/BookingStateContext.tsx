@@ -13,8 +13,7 @@ import {
 } from './BookingReducer';
 import { useGlobalContext } from '../../context';
 import moment from 'moment';
-import axios from 'axios';
-import { useSnackbar } from '../../store/snackbar';
+import { useDestinationQuery } from '../../query/destination';
 
 interface DomesticFees {
   travelIn: number;
@@ -37,13 +36,6 @@ interface LimitedOffers {
   international: number;
 }
 
-interface BookingInfo {
-  title: string;
-  limitedOffers: LimitedOffers;
-  domestic: DomesticFees;
-  international: InternationalFees;
-}
-
 interface Errors {
   flightTypeRegion: string;
   location: string;
@@ -54,7 +46,8 @@ interface Errors {
 interface BookingContextType {
   flightType: FlightType | '';
   regionsCategory: string;
-  eachRegion: string;
+  travellingFromLocation: string;
+  travellingFromRegion: string;
   withHotel: boolean;
   dateOfLeave: string;
   dateOfReturn: string;
@@ -77,10 +70,21 @@ interface BookingContextType {
   }) => void;
   discountSet: (offers: LimitedOffers) => void;
   amountSet: () => void;
-  formSubmit: (changeLoading: (val: boolean) => void) => Promise<void>;
 }
 
 const BookingContext = createContext<BookingContextType | undefined>(undefined);
+
+const BASE_BOOKING_INFO = {
+  title: '',
+  limitedOffers: { domestic: 0, international: 0 },
+  domestic: {
+    travelIn: 0,
+    travelOut: 0,
+    hotelFeePerDay: 0,
+    stayFeePerDay: 0,
+  },
+  international: {},
+};
 
 export const BookingProvider = ({
   children,
@@ -90,24 +94,14 @@ export const BookingProvider = ({
   const [state, dispatch] = useReducer(bookingReducer, initialState);
   const {
     contentModal: { isOpen, id },
-    openSignInModal,
-    closeModal,
-    authToken,
   } = useGlobalContext();
 
-  const { triggerSnackbar } = useSnackbar();
-
   // Booking Information for the form
-  const [bookingInfo, setBookingInfo] = useState<BookingInfo>({
-    title: '',
-    limitedOffers: { domestic: 0, international: 0 },
-    domestic: {
-      travelIn: 0,
-      travelOut: 0,
-      hotelFeePerDay: 0,
-      stayFeePerDay: 0,
+  const { data: bookingInfo = BASE_BOOKING_INFO } = useDestinationQuery({
+    id,
+    options: {
+      enabled: Boolean(id && isOpen),
     },
-    international: {},
   });
 
   const [errors, setErrors] = useState<Errors>({
@@ -116,27 +110,6 @@ export const BookingProvider = ({
     date: '',
     travellingFromLocation: '',
   });
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const fetchEachDestinationInfo = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://traveloga-api.onrender.com/api/v1/destinations/${id}`,
-          { signal: controller.signal },
-        );
-        setBookingInfo(data.destination);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    if (id && isOpen) {
-      fetchEachDestinationInfo();
-    }
-    return () => {
-      controller.abort();
-    };
-  }, [id, isOpen]);
 
   const flightTypeSelect = (val: FlightType) => {
     if (errors.flightTypeRegion) {
@@ -335,51 +308,6 @@ export const BookingProvider = ({
     }
   }, [state.discount, state.initialAmount]);
 
-  const formSubmit = async (changeLoading: (val: boolean) => void) => {
-    changeLoading(true);
-    const {
-      flightType,
-      regionsCategory,
-      travellingFromRegion,
-      travellingFromLocation,
-      withHotel,
-      date: { Leave, Return },
-      amount,
-    } = state;
-
-    try {
-      const {
-        data: { message },
-      } = await axios.post(
-        `https://traveloga-api.onrender.com/api/v1/bookings/${id}`,
-        {
-          travellingFromLocation,
-          regionsCategory,
-          travellingFromRegion,
-          travellingTo: bookingInfo.title,
-          dateOfLeave: Leave,
-          dateOfReturn: Return,
-          withHotel,
-          flightType,
-          amount,
-        },
-        { headers: { Authorization: `Bearer ${authToken}` } },
-      );
-      closeModal();
-      triggerSnackbar({ type: 'success', message });
-    } catch (err: any) {
-      console.log(err);
-      if (err.response.data.msg === 'Authentication Failed') {
-        openSignInModal();
-        return;
-      }
-      closeModal();
-      triggerSnackbar({ type: 'error', message: err.response.data.msg });
-    } finally {
-      changeLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (bookingInfo.limitedOffers) {
       discountSet(bookingInfo.limitedOffers);
@@ -419,7 +347,8 @@ export const BookingProvider = ({
   const value: BookingContextType = {
     flightType: state.flightType,
     regionsCategory: state.regionsCategory,
-    eachRegion: state.travellingFromRegion,
+    travellingFromLocation: state.travellingFromLocation,
+    travellingFromRegion: state.travellingFromRegion,
     withHotel: state.withHotel,
     dateOfLeave: state.date.Leave,
     dateOfReturn: state.date.Return,
@@ -447,7 +376,6 @@ export const BookingProvider = ({
       stayFeePerDay: 0,
     },
     international: bookingInfo.international || {},
-    formSubmit,
   };
 
   return (

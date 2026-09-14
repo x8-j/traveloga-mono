@@ -6,24 +6,30 @@ import {
   faUmbrellaBeach,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useGlobalContext } from '../../context';
-import type { PreviewDestination } from '../../types/Destination';
+import { Destination, useDestinationQuery } from '../../query/destination';
 
 type DestinationCategoryKeys = 'beach' | 'landmark' | 'history';
-type DestionationCategoryList = Record<
-  DestinationCategoryKeys,
-  PreviewDestination[]
->;
+type DestionationCategoryList = Record<Destination['category'], Destination[]>;
 
 const DestinationContent = () => {
-  const [listOfDestinations, setListOfDestinations] =
-    useState<DestionationCategoryList>({
-      beach: [],
-      landmark: [],
-      history: [],
-    });
+  const { data, isPending } = useDestinationQuery();
+
+  const destinationList = useMemo<DestionationCategoryList>(() => {
+    if (!data?.length || isPending) {
+      return { beach: [], landmark: [], history: [] };
+    }
+
+    return data.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.category]: curr,
+      }),
+      {} as DestionationCategoryList,
+    );
+  }, []);
+
   const [categoryFilter, setCategoryFilter] = useState<
     DestinationCategoryKeys | ''
   >('');
@@ -34,29 +40,6 @@ const DestinationContent = () => {
     ['landmark', faMountain],
     ['history', faLandmark],
   ] as const;
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const fetchAllCategory = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://traveloga-api.onrender.com/api/v1/destinations`,
-          { signal: controller.signal },
-        );
-
-        setListOfDestinations({
-          beach: data.beach,
-          landmark: data.landmark,
-          history: data.history,
-        });
-      } catch (err: any) {
-        if (axios.isCancel(err)) return console.log('fetch cancelled!');
-        console.log(err.response.data.msg);
-      }
-    };
-    fetchAllCategory();
-    return () => controller.abort();
-  }, []);
 
   return (
     <div className="flex flex-col gap-8">
@@ -79,7 +62,7 @@ const DestinationContent = () => {
       </div>
       <div className="flex flex-col gap-8 lg:gap-12">
         <EachDestinationContent
-          list={listOfDestinations}
+          list={destinationList}
           filter={categoryFilter}
         />
       </div>

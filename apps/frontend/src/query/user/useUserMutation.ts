@@ -14,7 +14,7 @@ type MutationFnProps = {
 
 const BASE_URL = 'api/v1/users';
 const BASE_QUERY_KEY = ['users'];
-export function useBookingMutation(
+export function useUserMutation(
   props?: Omit<
     UseMutationOptions<unknown, DefaultError, MutationFnProps>,
     'mutationFn'
@@ -44,7 +44,7 @@ export function useBookingMutation(
 export const UserPayloadSchema = z.object({
   firstname: z.string(),
   lastname: z.string(),
-  email: z.number(),
+  email: z.string(),
   password: z.string(),
   currentPassword: z.string(),
 });

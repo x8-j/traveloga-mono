@@ -1,4 +1,3 @@
-import emailjs from '@emailjs/browser';
 import {
   faFacebookF,
   faInstagram,
@@ -11,10 +10,11 @@ import {
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from '../store/snackbar';
+import { useSubscriptionMutation } from '../query/subscription';
+import { useMessageMutation } from '../query/message';
 
 const Footer = () => {
   return (
@@ -30,7 +30,6 @@ type TopFooterFormValues = Record<TopFooterFormInputs, string>;
 
 const TopFooter = () => {
   const { triggerSnackbar } = useSnackbar();
-  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -41,29 +40,15 @@ const TopFooter = () => {
     },
   });
 
-  const formSubmit = async (formData: TopFooterFormValues) => {
-    setIsLoading(true);
-
-    try {
-      const { data: message } = await axios.post(
-        'https://traveloga-api.onrender.com/api/v1/subscription',
-        formData,
-        { headers: { 'Content-Type': 'application/json' } },
-      );
-      await emailjs.send(
-        process.env.REACT_APP_SERVICE_ID ?? '',
-        process.env.REACT_APP_TEMPLATE_ID ?? '',
-        formData,
-        process.env.REACT_APP_PUBLIC_KEY,
-      );
-      setIsLoading(false);
-      triggerSnackbar({ type: 'success', message });
-    } catch (err: any) {
-      setIsLoading(false);
-      triggerSnackbar({ type: 'error', message: err.response.data.msg });
-      console.log(err);
-    }
-  };
+  const { mutate, isPending } = useSubscriptionMutation({
+    onSuccess: () =>
+      triggerSnackbar({ type: 'success', message: 'Subscription added!' }),
+    onError: () =>
+      triggerSnackbar({ type: 'error', message: 'Failed to add subscription' }),
+  });
+  const onFormSubmit = useCallback((payload: TopFooterFormValues) => {
+    mutate({ payload });
+  }, []);
 
   return (
     <section className="flex justify-center text-white  ">
@@ -83,7 +68,7 @@ const TopFooter = () => {
           </p>
           <form
             className="flex w-full  items-center gap-4 bg-white px-3 py-2 text-black "
-            onSubmit={handleSubmit(formSubmit)}>
+            onSubmit={handleSubmit(onFormSubmit)}>
             <input
               className={`${
                 errors.email ? 'placeholder:text-red-700' : ''
@@ -96,10 +81,10 @@ const TopFooter = () => {
             />
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isPending}
               className="button_transition flex items-center gap-4 bg-amber-300 px-4 py-2 enabled:hover:bg-amber-400 enabled:hover:text-white disabled:bg-amber-200 md:px-6 md:py-2">
               <h1 className="hidden sm:block">SUBMIT</h1>
-              {isLoading ? (
+              {isPending ? (
                 <FontAwesomeIcon
                   icon={faSpinner}
                   className="text-lg motion-safe:animate-spin sm:hidden lg:block"
@@ -135,30 +120,25 @@ const BottomFooter = () => {
       message: '',
     },
   });
-  const [isLoading, setIsLoading] = useState(false);
 
-  const formSubmit = async (formData: BottomFooterFormValues) => {
-    setIsLoading(true);
-    try {
-      const { data: message } = await axios.post(
-        'https://traveloga-api.onrender.com/api/v1/message',
-        formData,
-        { headers: { 'Content-Type': 'application/json' } },
-      );
-      setIsLoading(false);
-      triggerSnackbar({ type: 'success', message });
-    } catch (err: any) {
-      setIsLoading(false);
-      triggerSnackbar({ type: 'error', message: err.response.data.msg });
-    }
-  };
+  const { mutate, isPending } = useMessageMutation({
+    onSuccess: () =>
+      triggerSnackbar({ type: 'success', message: 'Message sent!' }),
+    onError: () =>
+      triggerSnackbar({ type: 'error', message: 'Failed to send message' }),
+  });
+  const onFormSubmit = useCallback((payload: BottomFooterFormValues) => {
+    mutate({
+      payload,
+    });
+  }, []);
 
   return (
     <section className="flex justify-center">
       <div className="flex w-full max-w-[100rem] flex-col items-stretch gap-4 bg-[#2B8E9B] px-6 py-8 sm:px-16 md:flex-row-reverse md:items-start md:gap-8 lg:gap-12 lg:py-8">
         <form
           className="flex flex-auto flex-col gap-4 text-white md:flex-row"
-          onSubmit={handleSubmit(formSubmit)}>
+          onSubmit={handleSubmit(onFormSubmit)}>
           <div className="flex flex-auto flex-col gap-4 md:w-2/5">
             <div className="flex flex-col gap-2">
               <label className="font-Rubik">Name</label>
@@ -240,7 +220,7 @@ const BottomFooter = () => {
             <button
               className="translation-all button_transition font-semibold text-amber-300 enabled:hover:text-amber-400 disabled:text-amber-200 md:text-right lg:self-end"
               type="submit"
-              disabled={isLoading}>
+              disabled={isPending}>
               SUBMIT
             </button>
           </div>

@@ -1,27 +1,12 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import EachOfferSelection from './EachOfferSelection';
+import { useDestinationQuery } from '../../query/destination';
 
 const OfferSelection = () => {
-  const [info, setInfo] = useState([]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const dataFetch = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://traveloga-api.onrender.com/api/v1/destinations?limitedOffers=true`,
-          { signal: controller.signal },
-        );
-        setInfo(data);
-      } catch (err: any) {
-        if (axios.isCancel(err)) return console.log('fetch cancelled!');
-        alert(err.response.data.msg);
-      }
-    };
-    dataFetch();
-    return () => controller.abort();
-  }, []);
+  const { data = [], isPending } = useDestinationQuery({
+    paramsFilter: {
+      limitedOffers: 'true',
+    },
+  });
 
   return (
     <section className="flex flex-col justify-center gap-4 md:gap-6 lg:gap-8">
@@ -30,7 +15,7 @@ const OfferSelection = () => {
         <div className="hidden h-[2px] bg-black sm:block " />
       </div>
       <div className="flex w-full flex-col items-center gap-8 lg:gap-12">
-        <EachOfferSelection data={info} />
+        <EachOfferSelection data={data} loading={isPending} />
       </div>
     </section>
   );

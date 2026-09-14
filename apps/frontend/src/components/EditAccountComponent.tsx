@@ -1,9 +1,10 @@
-import axios from 'axios';
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGlobalContext } from '../context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { useUserMutation } from '../query/user';
+import { useSnackbar } from '../store/snackbar';
 
 type FormInputs =
   | 'firstname'
@@ -58,7 +59,7 @@ const EditAccountComponent = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const { user, authToken } = useGlobalContext();
+  const { user } = useGlobalContext();
 
   const [typeisPassword, setTypeIsPassword] = useState({
     password: true,
@@ -70,24 +71,37 @@ const EditAccountComponent = () => {
     if (!value) unregister(inputName);
   };
 
-  const formSubmit = async (data: FormValues) => {
-    try {
-      const {
-        data: { message },
-      } = await axios.patch(
-        `https://traveloga-api.onrender.com/api/v1/users/${user.userId}`,
-        data,
-        { headers: { Authorization: `Bearer ${authToken}` } },
+  const { mutate } = useUserMutation();
+
+  const { triggerSnackbar } = useSnackbar();
+
+  const onFormSubmit = useCallback(
+    async (body: FormValues) => {
+      mutate(
+        {
+          id: user.userId,
+          body,
+        },
+        {
+          onSuccess: () => {
+            triggerSnackbar({ type: 'success', message: 'Payment verified!' });
+          },
+          onError: () => {
+            triggerSnackbar({
+              type: 'error',
+              message: 'Payment verification failed. Please try again.',
+            });
+          },
+        },
       );
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    },
+    [user.userId],
+  );
 
   return (
     <form
       className="w-screen bg-white px-8 py-8"
-      onSubmit={handleSubmit(formSubmit)}>
+      onSubmit={handleSubmit(onFormSubmit)}>
       <h1 className="mb-8 text-center text-2xl font-medium">
         EDIT ACCOUNT INFO
       </h1>

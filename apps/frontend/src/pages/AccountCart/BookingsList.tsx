@@ -1,6 +1,3 @@
-import axios from 'axios';
-import React, { useEffect } from 'react';
-import { useGlobalContext } from '../../context';
 import EachBooking from './EachBooking';
 import type { Booking } from '../../types/Booking';
 import type { BookingFilter } from './AccountNavigation';
@@ -15,30 +12,7 @@ const BookingsList = ({
   alterBookingList,
   bookingFilter,
 }: BookingsListProps) => {
-  const { authToken } = useGlobalContext();
   const bookingListValues = ['Cart', 'Booked', 'Cancelled', 'Refunded'];
-
-  useEffect(() => {
-    const controller = new AbortController();
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(
-          'https://traveloga-api.onrender.com/api/v1/bookings',
-          {
-            headers: { Authorization: `Bearer ${authToken}` },
-            signal: controller.signal,
-          },
-        );
-        alterBookingList(data);
-      } catch (err) {
-        if (axios.isCancel(err)) return console.log('fetch cancelled!');
-        console.log(err);
-      }
-    };
-
-    fetchData();
-    return () => controller.abort();
-  }, [authToken, alterBookingList]);
 
   if (bookingFilter) {
     return (
